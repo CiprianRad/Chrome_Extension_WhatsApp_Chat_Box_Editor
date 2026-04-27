@@ -5,9 +5,6 @@
 class StorageManager {
   /**
    * Get a value from storage.
-   * @param {string} key 
-   * @param {any} defaultValue 
-   * @returns {Promise<any>}
    */
   static async get(key, defaultValue = null) {
     return new Promise((resolve) => {
@@ -19,9 +16,6 @@ class StorageManager {
 
   /**
    * Set a value in storage.
-   * @param {string} key 
-   * @param {any} value 
-   * @returns {Promise<void>}
    */
   static async set(key, value) {
     return new Promise((resolve) => {
@@ -30,19 +24,7 @@ class StorageManager {
       });
     });
   }
-  
-  /**
-   * Listen for changes to the hideProfilePictures toggle.
-   * @param {Function} callback 
-   */
-  static onToggleChange(callback) {
-    chrome.storage.onChanged.addListener((changes, namespace) => {
-      if (namespace === 'sync' && changes.hideProfilePictures) {
-        callback(changes.hideProfilePictures.newValue);
-      }
-    });
-  }
 }
 
-// Make it available globally in content scripts and anywhere this file is loaded.
+// Make it available globally
 window.StorageManager = StorageManager;

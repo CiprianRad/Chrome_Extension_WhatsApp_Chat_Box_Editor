@@ -1,21 +1,71 @@
 /* WhatsApp Profile Picture selectors */
 
 /* 
-  1. Target images that are hosted on WhatsApp's profile picture domains.
-  This safely excludes emojis (which use static.whatsapp.net or inline base64) and UI icons.
-  This handles the chat list, the chat header, group participant icons, and most info drawer pictures.
+  WhatsApp DOM structure logic:
+  - Profile pictures are invariably direct children of <div> containers.
+  - Emojis in the text previews and headers are always inside <span> tags.
+  - Header actions (calls, search) use <svg> tags, not <img> tags.
 */
-body.wa-hide-profile-pictures img[src*="pps.whatsapp.net"],
-body.wa-hide-profile-pictures img[src*="fna.fbcdn.net"] {
-  content: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50" fill="%23dfe5e7"/><path d="M50 55c11.04 0 20-8.96 20-20s-8.96-20-20-20-20 8.96-20 20 8.96 20 20 20zm0 5c-15 0-45 7.5-45 22.5V100h90V82.5C95 67.5 65 60 50 60z" fill="%23ffffff"/></svg>') !important;
+
+/* =========================================
+   MODE 1: HIDE COMPLETELY (opacity: 0)
+   ========================================= */
+
+body.wa-pp-mode-hide div[data-testid="cell-frame-container"] div > img,
+body.wa-pp-mode-hide div[aria-label="Chat list"] div > img,
+body.wa-pp-mode-hide header div > img,
+body.wa-pp-mode-hide section[data-testid="contact-info-drawer"] div > img,
+body.wa-pp-mode-hide div[data-testid="cell-frame-container"] span[data-icon*="default-user"],
+body.wa-pp-mode-hide div[data-testid="cell-frame-container"] span[data-icon*="default-group"],
+body.wa-pp-mode-hide header span[data-icon*="default-user"],
+body.wa-pp-mode-hide header span[data-icon*="default-group"],
+body.wa-pp-mode-hide section[data-testid="contact-info-drawer"] span[data-icon*="default-user"],
+body.wa-pp-mode-hide section[data-testid="contact-info-drawer"] span[data-icon*="default-group"] {
+  opacity: 0 !important;
   pointer-events: none !important;
 }
 
-/* 
-  2. For high-res pictures in the sidebar that might be loaded as blob URLs. 
-  Targeting explicitly by structural roles to avoid any emojis.
-*/
-body.wa-hide-profile-pictures header div[role="button"] img,
-body.wa-hide-profile-pictures section div[title="Profile Details"] img {
-  content: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50" fill="%23dfe5e7"/><path d="M50 55c11.04 0 20-8.96 20-20s-8.96-20-20-20-20 8.96-20 20 8.96 20 20 20zm0 5c-15 0-45 7.5-45 22.5V100h90V82.5C95 67.5 65 60 50 60z" fill="%23ffffff"/></svg>') !important;
+/* =========================================
+   MODE 2: REPLACE WITH DEFAULT ICON
+   ========================================= */
+
+/* The JS script dynamically generates the exact SVG with the correct Dark/Light color pairings */
+body.wa-pp-mode-replace div[data-testid="cell-frame-container"] div > img,
+body.wa-pp-mode-replace div[aria-label="Chat list"] div > img,
+body.wa-pp-mode-replace header div > img,
+body.wa-pp-mode-replace section[data-testid="contact-info-drawer"] div > img,
+body.wa-pp-mode-replace div[data-testid="cell-frame-container"] span[data-icon*="default-user"],
+body.wa-pp-mode-replace div[data-testid="cell-frame-container"] span[data-icon*="default-group"],
+body.wa-pp-mode-replace header span[data-icon*="default-user"],
+body.wa-pp-mode-replace header span[data-icon*="default-group"],
+body.wa-pp-mode-replace section[data-testid="contact-info-drawer"] span[data-icon*="default-user"],
+body.wa-pp-mode-replace section[data-testid="contact-info-drawer"] span[data-icon*="default-group"] {
+  content: var(--wa-avatar-url, url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" fill="%232D353A"/><g fill="%238C9DA8"><circle cx="12" cy="8.5" r="2.8"/><path d="M 7 16.5 A 1.5 1.5 0 0 0 8.5 18 H 15.5 A 1.5 1.5 0 0 0 17 16.5 C 17 13.5 14.5 12.5 12 12.5 C 9.5 12.5 7 13.5 7 16.5 Z"/></g></svg>')) !important;
+  pointer-events: none !important;
+  object-fit: fill !important;
+  background-color: transparent !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ONLY span elements need a forced border-radius because they natively rely on SVG paths rather than CSS */
+body.wa-pp-mode-replace div[data-testid="cell-frame-container"] span[data-icon*="default-user"],
+body.wa-pp-mode-replace div[data-testid="cell-frame-container"] span[data-icon*="default-group"],
+body.wa-pp-mode-replace header span[data-icon*="default-user"],
+body.wa-pp-mode-replace header span[data-icon*="default-group"],
+body.wa-pp-mode-replace section[data-testid="contact-info-drawer"] span[data-icon*="default-user"],
+body.wa-pp-mode-replace section[data-testid="contact-info-drawer"] span[data-icon*="default-group"] {
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}
+
+/* Override specifically for Community Squircles */
+body.wa-pp-mode-replace span[data-icon*="squircle"],
+body.wa-pp-mode-replace span[data-icon*="community"] {
+  border-radius: 16px !important; /* Native community squircle shape */
+}
+
+/* Handle compound avatars (a community back-plate + a group icon overlaid).
+   WhatsApp often structures these adjacently. The CSS above handles their native shapes gracefully. */
 }

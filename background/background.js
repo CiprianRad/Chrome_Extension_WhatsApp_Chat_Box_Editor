@@ -1,9 +1,9 @@
 // Background service worker
 chrome.runtime.onInstalled.addListener(() => {
-  console.log("WhatsApp Profile Picture Toggler extension installed.");
+  console.log("WhatsApp Profile Picture Toggler installed.");
   
-  // Initialize default state
-  chrome.storage.sync.get({ hideProfilePictures: false }, (result) => {
-    chrome.storage.sync.set({ hideProfilePictures: result.hideProfilePictures });
+  // Initialize default states for the new schema
+  chrome.storage.sync.get({ isActive: false, effectMode: 'replace' }, (result) => {
+    chrome.storage.sync.set(result);
   });
 });

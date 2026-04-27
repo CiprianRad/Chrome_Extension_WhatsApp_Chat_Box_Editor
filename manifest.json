@@ -23,6 +23,12 @@
         "content_scripts/main.js"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://web.whatsapp.com/*"],
+      "js": ["content_scripts/dom/react-inspector.js"],
+      "world": "MAIN",
+      "run_at": "document_idle"
     }
   ],
   "background": {

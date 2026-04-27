@@ -8,12 +8,27 @@
 <body>
   <div class="container">
     <h2>WhatsApp Settings</h2>
-    <div class="toggle-container">
-      <span class="label">Hide Profile Pictures</span>
+    
+    <div class="setting-row toggle-container">
+      <span class="label">Modify Profile Pictures</span>
       <label class="switch">
         <input type="checkbox" id="pp-toggle">
         <span class="slider round"></span>
       </label>
+    </div>
+
+    <div class="setting-row mode-container" id="mode-settings">
+      <span class="label">Effect Mode:</span>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="effectMode" value="hide">
+          Hide Completely (Empty Space)
+        </label>
+        <label>
+          <input type="radio" name="effectMode" value="replace">
+          Default WhatsApp Icon
+        </label>
+      </div>
     </div>
   </div>
   

@@ -1,6 +1,6 @@
 /**
  * Main entry point for the content script.
- * Initializes the modifier and listens to settings changes.
+ * Initializes the modifier and listens to setting changes from popup.
  */
 class ExtensionMain {
   constructor() {
@@ -10,23 +10,26 @@ class ExtensionMain {
 
   async init() {
     // Get initial state
-    const isHidden = await window.StorageManager.get('hideProfilePictures', false);
-    this.updateState(isHidden);
+    const isActive = await window.StorageManager.get('isActive', false);
+    const effectMode = await window.StorageManager.get('effectMode', 'replace');
+    
+    this.updateState(isActive, effectMode);
 
-    // Listen for toggle changes from the popup
-    window.StorageManager.onToggleChange((newValue) => {
-      this.updateState(newValue);
+    // Listen for storage changes directly
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if (namespace === 'sync') {
+        // Fetch fresh state to ensure consistency
+        chrome.storage.sync.get(['isActive', 'effectMode'], (result) => {
+          this.updateState(result.isActive, result.effectMode);
+        });
+      }
     });
   }
 
-  updateState(isHidden) {
-    if (isHidden) {
-      this.modifier.hidePictures();
-    } else {
-      this.modifier.showPictures();
-    }
+  updateState(isActive, effectMode) {
+    this.modifier.applyMode(isActive ? effectMode : 'off');
   }
 }
 
-// Initialize the content script execution
+// Initialize the content script
 new ExtensionMain();
