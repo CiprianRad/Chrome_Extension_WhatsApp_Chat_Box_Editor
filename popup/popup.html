@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>WhatsApp PP Toggler</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h2>WhatsApp Settings</h2>
+    <div class="toggle-container">
+      <span class="label">Hide Profile Pictures</span>
+      <label class="switch">
+        <input type="checkbox" id="pp-toggle">
+        <span class="slider round"></span>
+      </label>
+    </div>
+  </div>
+  
+  <!-- Load the shared storage module -->
+  <script src="../utils/storage.js"></script>
+  <!-- Load the popup logic -->
+  <script src="popup.js"></script>
+</body>
+</html>
