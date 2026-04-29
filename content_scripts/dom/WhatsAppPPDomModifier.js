@@ -5,7 +5,6 @@
 class WhatsAppPPDomModifier {
   constructor() {
     this.classes = ['wa-pp-mode-hide', 'wa-pp-mode-replace'];
-    // Exact WhatsApp native Dark Background / Light Foreground pairs
     this.colorPairs = [
       { bg: '#0A3332', fg: '#3CC4B0' }, // Teal
       { bg: '#1B4A36', fg: '#63E07D' }, // Green
@@ -18,7 +17,7 @@ class WhatsAppPPDomModifier {
     ];
     this.observer = null;
     this.handleMutations = this.handleMutations.bind(this);
-    
+
     // Listen for lightning-fast memory updates from the isolated React inspector
     window.addEventListener('wa-pp-update', () => {
       if (this.isActive || document.body.classList.contains('wa-pp-mode-replace') || document.body.classList.contains('wa-pp-mode-hide')) {
@@ -125,7 +124,7 @@ class WhatsAppPPDomModifier {
     // 1. Check native DOM hints if present (used when there's no custom PFP)
     if (row.querySelector('[data-testid*="default-group"]')) return true;
     if (row.querySelector('[data-icon*="default-group"]')) return true;
-    
+
     if (row.querySelector('[data-testid*="default-user"]')) return false;
     if (row.querySelector('[data-icon*="default-user"]')) return false;
 
@@ -136,7 +135,7 @@ class WhatsAppPPDomModifier {
 
     // 3. Very powerful DOM structural fallback for edge cases like deep archived chats
     const textContainer = row.children[1] || row;
-    
+
     const spans = textContainer.querySelectorAll('span');
     for (let i = 0; i < spans.length; i++) {
       const span = spans[i];
@@ -181,12 +180,12 @@ class WhatsAppPPDomModifier {
       const isClassified = row.classList.contains('wa-classified');
       const wasGroup = row.classList.contains('wa-is-group');
       const wasSingle = row.classList.contains('wa-is-single');
-      
+
       // Re-apply SVG and classes ONLY if the true status conflicts with its assigned visual class
       if (!isClassified || (isGroup && !wasGroup) || (!isGroup && !wasSingle)) {
         row.classList.add('wa-classified');
         row.classList.remove('wa-is-group', 'wa-is-single');
-        
+
         if (isGroup) {
           row.classList.add('wa-is-group');
         } else {
@@ -217,7 +216,7 @@ class WhatsAppPPDomModifier {
       if (!isClassified || (isGroup && !wasGroup) || (!isGroup && !wasSingle)) {
         header.classList.add('wa-classified');
         header.classList.remove('wa-is-group', 'wa-is-single');
-        
+
         if (isGroup) {
           header.classList.add('wa-is-group');
         } else {

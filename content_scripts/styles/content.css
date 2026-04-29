@@ -7,14 +7,11 @@
   - Header actions (calls, search) use <svg> tags, not <img> tags.
 */
 
-/* =========================================
-   MODE 1: HIDE COMPLETELY (opacity: 0)
-   ========================================= */
 
-body.wa-pp-mode-hide div[data-testid="cell-frame-container"] div > img,
-body.wa-pp-mode-hide div[aria-label="Chat list"] div > img,
-body.wa-pp-mode-hide header div > img,
-body.wa-pp-mode-hide section[data-testid="contact-info-drawer"] div > img,
+body.wa-pp-mode-hide div[data-testid="cell-frame-container"] div>img,
+body.wa-pp-mode-hide div[aria-label="Chat list"] div>img,
+body.wa-pp-mode-hide header div>img,
+body.wa-pp-mode-hide section[data-testid="contact-info-drawer"] div>img,
 body.wa-pp-mode-hide div[data-testid="cell-frame-container"] span[data-icon*="default-user"],
 body.wa-pp-mode-hide div[data-testid="cell-frame-container"] span[data-icon*="default-group"],
 body.wa-pp-mode-hide header span[data-icon*="default-user"],
@@ -25,15 +22,12 @@ body.wa-pp-mode-hide section[data-testid="contact-info-drawer"] span[data-icon*=
   pointer-events: none !important;
 }
 
-/* =========================================
-   MODE 2: REPLACE WITH DEFAULT ICON
-   ========================================= */
 
 /* The JS script dynamically generates the exact SVG with the correct Dark/Light color pairings */
-body.wa-pp-mode-replace div[data-testid="cell-frame-container"] div > img,
-body.wa-pp-mode-replace div[aria-label="Chat list"] div > img,
-body.wa-pp-mode-replace header div > img,
-body.wa-pp-mode-replace section[data-testid="contact-info-drawer"] div > img,
+body.wa-pp-mode-replace div[data-testid="cell-frame-container"] div>img,
+body.wa-pp-mode-replace div[aria-label="Chat list"] div>img,
+body.wa-pp-mode-replace header div>img,
+body.wa-pp-mode-replace section[data-testid="contact-info-drawer"] div>img,
 body.wa-pp-mode-replace div[data-testid="cell-frame-container"] span[data-icon*="default-user"],
 body.wa-pp-mode-replace div[data-testid="cell-frame-container"] span[data-icon*="default-group"],
 body.wa-pp-mode-replace header span[data-icon*="default-user"],
@@ -63,9 +57,6 @@ body.wa-pp-mode-replace section[data-testid="contact-info-drawer"] span[data-ico
 /* Override specifically for Community Squircles */
 body.wa-pp-mode-replace span[data-icon*="squircle"],
 body.wa-pp-mode-replace span[data-icon*="community"] {
-  border-radius: 16px !important; /* Native community squircle shape */
-}
-
-/* Handle compound avatars (a community back-plate + a group icon overlaid).
-   WhatsApp often structures these adjacently. The CSS above handles their native shapes gracefully. */
+  border-radius: 16px !important;
+  /* Native community squircle shape */
 }
