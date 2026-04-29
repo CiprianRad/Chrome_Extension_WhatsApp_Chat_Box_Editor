@@ -51,3 +51,6 @@ WhatsApp Web relies heavily on a virtualized React DOM, which can make reliable 
 │   └── popup.js                            # Logic for updating Chrome storage based on user input
 └── utils/
     └── storage.js                          # Reusable Chrome storage wrapper
+
+Privacy
+This extension runs entirely locally in your browser. It does not collect, store, or transmit any of your personal data, chat names, profile pictures, or messages. The React inspector only briefly evaluates JIDs to apply the correct visual CSS classes.
